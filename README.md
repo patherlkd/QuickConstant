@@ -11,7 +11,7 @@ where `<x>, <y>, <z>` are the cartesian coordinates.
 
 # Usage
 
-This repository contains an executable ***quickconstant***. By typing `quicksort -h` or `quicksort --help` you will see the command line options:
+This repository contains an executable ***quickconstant***. By typing `quickconstant -h` or `quickconstant --help` you will see the command line options:
 ```
 A program to compute the association and/or dissociation constant from a 2 bead simulation
 Usage: quickconstant [OPTIONS]
