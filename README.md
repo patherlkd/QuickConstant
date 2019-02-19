@@ -30,3 +30,14 @@ e.g. to actually run the code you would execute:
 quickconstant -f <xyzfilename> -c <cutoff> -l <boxlength> -d <lengthdim>
 ```
 where `<xyzfilename` is the file name containing the cartesian coodinates for 2 beads at multiple timesteps, `<cutoff>` is the dimerization radius, i.e., if two beads have an inter-particle distance `<dr>` that is equal to or less than `<cutoff>` they are considered a dimer, `<boxlength>` is the simulation box length, and `<lengthdim>` is the unit of length e.g. 1 nm = 10^-9 m here `<lengthdim> = 9`.
+
+# Results
+
+Results will be displayed on the terminal e.g.
+```
+Number of trajectories containing dimers: <ndimer>
+Number of trajectories not containing dimers: <nmono>
+ka (association constant in units liters/mol): <ka>
+kd (dissociation constant in units mol/liters): <kd>
+Number of trajectories analysed: <ntraj>
+```
