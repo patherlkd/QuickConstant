@@ -24,6 +24,7 @@ int main(int argc, char* argv[]) {
 
     double l = 0.0; // Simulation box length
     double rc = 0.0; // cut-off defining dimer state
+    double rad = 0.0; // excluded volume radius of particle
     int d = 0; // length units :  e.g. 10^-d where d = 9 for nano meters
 
 
@@ -34,6 +35,7 @@ int main(int argc, char* argv[]) {
     CLI::Option* opt_xyzfilename = quickCons.add_option("-f,--xyzfilename", xyzfilename, "XYZ coordinate filename")->required();
     CLI::Option* opt_l = quickCons.add_option("-l,--boxlength", l, "Box length of the simulation box")->required();
     CLI::Option* opt_rc = quickCons.add_option("-c,--cutoff", rc, "Cut-off defining the dimer state")->required();
+     CLI::Option* opt_rad = quickCons.add_option("-r,--radius", rad, "excluded volume radius of particle")->required();
     CLI::Option* opt_d = quickCons.add_option("-d,--lengthdim", d, "length units :  e.g. 10^-d where d = 9 for nano meters")->required();
 
     CLI11_PARSE(quickCons, argc, argv);
@@ -44,6 +46,10 @@ int main(int argc, char* argv[]) {
     }
     if (rc <= 0.0) {
         std::cerr << "Dimer cut-off must be > 0.0\n";
+        exit(EXIT_FAILURE);
+    }
+     if (rad <= 0.0) {
+        std::cerr << "Radius must be > 0.0\n";
         exit(EXIT_FAILURE);
     }
     if (d <= 0) {
@@ -133,16 +139,16 @@ int main(int argc, char* argv[]) {
     }
 
     double V = l * l*l;
-    double Vd = (4.0 / 3.0) * M_PI * rc * rc * rc;
+    double Vd = (4.0 / 3.0) * M_PI * rad * rad * rad;
 
-    double ka = 6.022140857 * ((double) ndimer / (double) (nmono))*(V - Vd) * pow(10.0, (23 + 3 - (d * 3)));
+    double ka = 6.022140857 * ((double) ndimer / (double) (nmono))*(V - Vd) * pow(10.0, (23 + 3 - (d * 3))); // Avogadros number = 6.022140857 * 10 ^23, m^3 = 1000 liters, 
     double kd = 1.0 / ka;
     
-    std::cout<<"Number of trajectories containing dimers: "<<ndimer<<"\n";
-    std::cout<<"Number of trajectories not containing dimers: "<<nmono<<"\n";
-    std::cout << "ka (association constant in units liters/mol): " << ka << "\n";
-    std::cout << "kd (dissociation constant in units mol/liters): " << kd << "\n";
-    std::cout << "Number of trajectories analysed: " << ntraj << "\n";
+    std::cout<<"Number of trajectories containing dimers\t"<<ndimer<<"\n";
+    std::cout<<"Number of trajectories not containing dimers\t"<<nmono<<"\n";
+    std::cout << "ka (association constant in units liters/mol)\t" << ka << "\n";
+    std::cout << "kd (dissociation constant in units mol/liters)\t" << kd << "\n";
+    std::cout << "Number of trajectories analysed\t" << ntraj << "\n";
 
     xyz.close();
 
